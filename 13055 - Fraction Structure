@@ -1,0 +1,64 @@
+#include <stdio.h>
+//#include "function.h"
+typedef struct {
+    long long numerator;
+    long long denominator;
+} Fraction;
+
+Fraction CreateFrac(long long  a,long long b){
+    Fraction c ;
+    c.numerator = (long long)a;
+    c.denominator = (long long)b;
+return c;
+}
+
+void Reduction(Fraction* a){
+    long long aa = a->numerator;
+    long long bb = a->denominator;
+    long long cc = aa%bb;
+    while(cc!=0){
+        if(cc==(long long)1){
+            return;
+        }
+        aa = bb;
+        bb = cc;
+        cc = aa%bb;
+    }
+    a->numerator /= bb;
+    a->denominator /= bb;
+    return;
+}
+
+int Compare(Fraction a, Fraction b){
+    int c = a.numerator*b.denominator>b.numerator*a.denominator?1:0;
+    return c;
+}
+Fraction Add(Fraction a, Fraction b){
+    Fraction c;
+    c.numerator = a.numerator*b.denominator+b.numerator*a.denominator;
+    c.denominator = a.denominator*b.denominator;
+    Reduction(&c);
+    return c;
+}
+Fraction Sub(Fraction a, Fraction b){
+    Fraction c;
+    c.numerator = a.numerator*b.denominator-b.numerator*a.denominator;
+    c.denominator = a.denominator*b.denominator;
+    Reduction(&c);
+    return c;
+}
+Fraction Mul(Fraction a, Fraction b){
+    Fraction c;
+    c.numerator = a.numerator*(b.numerator);
+    c.denominator = a.denominator*(b.denominator);
+    Reduction(&c);
+    return c;
+}
+Fraction Div(Fraction a, Fraction b){
+    Fraction c;
+    c.numerator = a.numerator*b.denominator;
+    c.denominator = a.denominator*b.numerator;
+    Reduction(&c);
+    return c;
+}
+
